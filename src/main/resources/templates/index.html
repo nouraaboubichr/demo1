@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Users</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+
+    <div th:if="${#lists.isEmpty(users)}">
+        <h2 class="empty">No users yet!</h2>
+    </div>
+
+    <div th:unless="${#lists.isEmpty(users)}">
+        <h2>Users</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.email}"></td>
+                <td>
+                    <a class="btn btn-edit" th:href="@{/edit/{id}(id=${user.id})}">Edit</a>
+                </td>
+                <td>
+                    <a class="btn btn-delete"
+                       th:href="@{/delete/{id}(id=${user.id})}"
+                       th:data-name="${user.name}"
+                       onclick="return confirm('Voulez-vous vraiment supprimer l\'utilisateur ' + this.dataset.name + ' ?');">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <a class="btn btn-primary" th:href="@{/signup}">Add a new user</a>
+</div>
+</body>
+</html>
